@@ -31,6 +31,7 @@ class ViewNoteContent extends Component {
       <div>
         <h1> {this.props.currentNote.notesName ? this.props.currentNote.notesName : "No name note" } </h1>
         <div> {this.props.currentNote.content} </div>
+        <Link to={'editNote/' + this.props.params.id}> EDIT </Link>
       </div>
     )
   }
