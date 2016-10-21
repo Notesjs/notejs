@@ -2,7 +2,6 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import {Editor, EditorState, RichUtils, convertToRaw, convertFromRaw} from 'draft-js'
 
-
 class MyEditor extends React.Component {
   constructor (props) {
     super(props)
