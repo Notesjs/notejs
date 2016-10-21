@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom'
 import {Editor, EditorState, RichUtils, convertToRaw, convertFromRaw} from 'draft-js'
 import styles from './style.css'
 
-
 class MyEditor extends React.Component {
   constructor (props) {
     super(props)
@@ -32,7 +31,9 @@ class MyEditor extends React.Component {
       <button onClick={this._onUnderlineClick.bind(this)}>Underline</button>
       <button onClick={this._onItalicClick.bind(this)}>Italic</button>
       <button>Code Block</button>
-      <Editor editorState={this.state.editorState} onChange={this.onChange} />
+      <Editor editorState={this.state.editorState} onChange={this.onChange}>
+      {this.props.noteData}
+      </Editor>
       <button onClick={this._createContent.bind(this)}>Log content</button>
       </div>
       </div>
@@ -40,7 +41,4 @@ class MyEditor extends React.Component {
   }
 }
 
-ReactDOM.render(
-  <MyEditor />,
-  document.getElementById('app')
-)
+export default MyEditor
