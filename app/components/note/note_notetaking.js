@@ -1,9 +1,12 @@
+import _ from 'lodash'
+import { browserHistory } from 'react-router'
 import React, {Component, PropTypes} from 'react'
 import {Editor, EditorState, RichUtils, ContentState, createFromBlockArray, contentBlock, convertToRaw, convertFromRaw} from 'draft-js'
 import AppBar from 'material-ui/AppBar'
 import { connect } from 'react-redux'
 import RaisedButton from 'material-ui/RaisedButton'
 import KeyBinding from 'react-keybinding-component'
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 
 const styleMap = {
   'CODE': {
@@ -68,9 +71,17 @@ class MyEditor extends Component {
   constructor (props) {
     super(props)
     const DBEditorState = convertFromRaw(JSON.parse(this.props.noteData))
-    this.state = { editorState: EditorState.createWithContent(DBEditorState) }
-
-    this.onChange = (editorState) => this.setState({editorState})
+    this.state = { editorState: EditorState.createWithContent(DBEditorState), saved: '' }
+    this._saveContent = this._saveContent.bind(this)
+    this.onChange = this.onChange.bind(this)
+    this.debouncedSave = _.debounce(this._saveContent, 500);
+  }
+    
+  onChange (editorState) {
+    this.setState({editorState})
+    
+    // let debounced = _.debounce(this._saveContent, 3000, {leading: true, trailing: true});
+    this.debouncedSave(false)
   }
 
   handleKeyEvent (e) {
@@ -81,9 +92,12 @@ class MyEditor extends Component {
 
   logContent () {
     // Using this to test keybinding
+    let greet = function() {
+      console.log('save!')
+    }
   }
 
-  _saveContent () {
+  _saveContent (bool) {
     let noteId = this.props.idData
     let content = convertToRaw(this.state.editorState.getCurrentContent())
     let saveObj = {
@@ -91,14 +105,19 @@ class MyEditor extends Component {
       content: content
     }
 
+    console.log('auto saving inside _saveContent')
     this.props.updateNoteData(saveObj)
-    this.context.router.push('/folders')
+    if(!!bool){
+      browserHistory.push('/folders')
+    }
+
+    this.setState({save: 'saved'})
   }
   _deleteNote () {
     let noteId = this.props.idData
     this.props.deleteNoteData(noteId)
 
-    this.context.router.push('/folders')
+    // browserHistory.push('/folders')
   }
   _onH1Click () {
     this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'H1'))
@@ -150,11 +169,14 @@ class MyEditor extends Component {
   }
 
   render () {
+    const autoSave = (
+    <div className='autoSave'>
+      <p>last saved at {new Date().toLocaleTimeString(/*[], {hour: '2-digit', minute:'2-digit'}*/)}</p>
+    </div>
+    );
     return (
 
       <div>
-        <AppBar title='NoteJS' className='noteNavbar' />
-
         <div id='content' className='noteView'>
           <div id='editor'>
 
@@ -179,19 +201,23 @@ class MyEditor extends Component {
             </div>
             <br /><br />
 
-            <Editor placeholder="What's on your mind?" className='editNoteBlock' editorState={this.state.editorState} onChange={this.onChange} customStyleMap={styleMap} />
+              <Editor placeholder="What's on your mind?" className='editNoteBlock' editorState={this.state.editorState} onChange={this.onChange} customStyleMap={styleMap} />
 
             <KeyBinding onKey={(e) => { /* this.handleKeyEvent(e); */ this.logContent() }} />
             <br /><br />
-            <RaisedButton className='noteBottomButtons' label='Save' onClick={this._saveContent.bind(this)} />
+            <div className='editorButtonStyling'>
+            <ReactCSSTransitionGroup transitionName="example" transitionEnterTimeout={500} transitionLeaveTimeout={300}>
+              {autoSave}
+            </ReactCSSTransitionGroup>
+            <RaisedButton className='noteBottomButtons' label='Back' onClick={this._saveContent.bind(this)} />
             <RaisedButton className='noteBottomButtons' label='Delete Note' onClick={this._deleteNote.bind(this)} />
-
+            </div>
           </div>
         </div>
 
       </div>
     )
-  }
+  } 
 }
 
 MyEditor.contextTypes = {

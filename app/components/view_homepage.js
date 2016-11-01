@@ -27,18 +27,6 @@ class HomePage extends Component {
   render () {
     return (
       <div>
-        <AppBar
-          title='NoteJS'
-          className='navbar'
-          iconClassNameRight='muidocs-icon-navigation-expand-more'
-          onLeftIconButtonTouchTap={this.handleToggle.bind(this)}
-          iconElementRight={
-            <span>
-              <FlatButton label='Sign in' className='authButtons' containerElement={<Link to='signin' />} />
-              <FlatButton label='Sign up' className='authButtons' containerElement={<Link to='signup' />} />
-            </span>
-          }
-        />
         <Drawer
           docked={false}
           width={200}
@@ -50,7 +38,6 @@ class HomePage extends Component {
           <MenuItem >Contact Us</MenuItem>
         </Drawer>
         <div className='background'>
-          <Link to='folders' className='renderFolders'>Render folders</Link>
           <div>
             <h1 className='title'><strong>NoteJS</strong></h1>
             <h3 className='tagline'>The premier note taking app for developers</h3>

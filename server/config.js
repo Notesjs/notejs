@@ -1,5 +1,5 @@
 const Users = require('./db/db').Users
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 
 let verifyPassword = (req, res, next) => {
   Users.findOne({
