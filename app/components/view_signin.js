@@ -33,6 +33,7 @@ class existingUser extends Component {
 
         <button type='submit' className='signupButton'>Submit</button>
         <Link to='/' className='signupCancelButton'>Cancel</Link>
+        <a href="/api/github/auth/github?scope=user:email"><img src="https://www.sourcecoast.com/images/jfbconnect/features/button_github.jpg"/></a>
       </form>
     )
   }

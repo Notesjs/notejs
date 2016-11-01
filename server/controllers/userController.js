@@ -12,6 +12,7 @@ userController.SIGNIN = (req, res) => {
 
 // Create a new user
 userController.SIGNUP = (req, res) => {
+  console.log("This is req.body", req.body)
   User.register(req.body)
     .then((user) => {
       res.status(200).send(user)

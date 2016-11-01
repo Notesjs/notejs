@@ -16,6 +16,12 @@ var config = {
         include: APP_DIR,
         loader: 'babel',
         query: { presets: ['es2015', 'react', 'stage-3'] }
+      },
+      {
+        test: /plugin\.css$/,
+        loaders: [
+          'style', 'css',
+        ],
       }
     ]
   }

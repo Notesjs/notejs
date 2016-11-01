@@ -55,6 +55,12 @@ body {
   background-color: #1E88E5 !important;
 }
 
+.donateButton {
+  color: white !important;
+  margin-top: 5px !important;
+  background-color: #1E88E5 !important;
+}
+
 .stylingDiv {
   background-color: #272726;
   border-radius: 5px;
@@ -132,6 +138,14 @@ body {
 }
 
 .authButtons:hover {
+  font-weight: bold !important;
+  background-color: white !important;
+  border: solid 1px white;
+  border-radius: 3px;
+  color: #1E88E5 !important;
+}
+
+.donateButton:hover {
   font-weight: bold !important;
   background-color: white !important;
   border: solid 1px white;

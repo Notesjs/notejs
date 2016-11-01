@@ -1,9 +1,13 @@
 import React, {Component, PropTypes} from 'react'
-import {Editor, EditorState, RichUtils, ContentState, createFromBlockArray, contentBlock, convertToRaw, convertFromRaw} from 'draft-js'
+import {EditorState, RichUtils, ContentState, createFromBlockArray, contentBlock, convertToRaw, convertFromRaw} from 'draft-js'
+import Editor from 'draft-js-plugins-editor'
+import createLinkifyPlugin from 'draft-js-linkify-plugin'
 import AppBar from 'material-ui/AppBar'
 import { connect } from 'react-redux'
 import RaisedButton from 'material-ui/RaisedButton'
 import KeyBinding from 'react-keybinding-component'
+
+const linkifyPlugin = createLinkifyPlugin()
 
 const styleMap = {
   'CODE': {
@@ -179,7 +183,7 @@ class MyEditor extends Component {
             </div>
             <br /><br />
 
-            <Editor placeholder="What's on your mind?" className='editNoteBlock' editorState={this.state.editorState} onChange={this.onChange} customStyleMap={styleMap} />
+            <Editor placeholder="What's on your mind?" className='editNoteBlock' editorState={this.state.editorState} onChange={this.onChange} customStyleMap={styleMap} plugins={[linkifyPlugin]} />
 
             <KeyBinding onKey={(e) => { /* this.handleKeyEvent(e); */ this.logContent() }} />
             <br /><br />

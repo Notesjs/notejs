@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 import { Link } from 'react-router'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import AppBar, {muiTheme} from 'material-ui/AppBar'
@@ -7,13 +7,26 @@ import injectTapEventPlugin from 'react-tap-event-plugin'
 import MenuItem from 'material-ui/MenuItem'
 import Drawer from 'material-ui/Drawer'
 
-injectTapEventPlugin()
+const navStyle = {
+  backgroundColor: '#1E88E5',
+  fontFamily: 'sans-serif'
+}
 
-class HomePage extends Component {
+const navButtons = {
+  color: 'white',
+  marginTop: 5,
+  backgroundColor: '#1E88E5'
+}
 
+const body = {
+  margin: 50
+}
+
+class ViewThankYou extends React.Component {
   constructor (props) {
     super(props)
-    this.state = {open: false}
+    this.state = {
+    }
   }
 
   handleToggle () {
@@ -29,16 +42,16 @@ class HomePage extends Component {
       <div>
         <AppBar
           title='NoteJS'
-          className='navbar'
           iconClassNameRight='muidocs-icon-navigation-expand-more'
           onLeftIconButtonTouchTap={this.handleToggle.bind(this)}
           iconElementRight={
             <span>
-              <FlatButton label='Donate' className='donateButton' containerElement={<Link to='donate' />} />
-              <FlatButton label='Sign in' className='authButtons' containerElement={<Link to='signin' />} />
-              <FlatButton label='Sign up' className='authButtons' containerElement={<Link to='signup' />} />
+              <FlatButton label='Donate' className='donateButton' containerElement={<Link to='donate' />} style={navButtons} />
+              <FlatButton label='Sign in' className='authButtons' containerElement={<Link to='signin' />} style={navButtons} />
+              <FlatButton label='Sign up' className='authButtons' containerElement={<Link to='signup' />} style={navButtons} />
             </span>
           }
+          style={navStyle}
         />
         <Drawer
           docked={false}
@@ -50,16 +63,13 @@ class HomePage extends Component {
           <MenuItem >Career Opportunities</MenuItem>
           <MenuItem >Contact Us</MenuItem>
         </Drawer>
-        <div className='background'>
-          <Link to='folders' className='renderFolders'>Render folders</Link>
-          <div>
-            <h1 className='title'><strong>NoteJS</strong></h1>
-            <h3 className='tagline'>The premier note taking app for developers</h3>
-          </div>
+        <div style={body}>
+          <h1>Thank You</h1>
+          <p>Your support will help Notejs continue providing excellent service and develop new features.</p>
         </div>
       </div>
     )
   }
 }
 
-export default HomePage
+export default ViewThankYou

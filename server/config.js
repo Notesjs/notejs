@@ -1,5 +1,5 @@
 const Users = require('./db/db').Users
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 
 let verifyPassword = (req, res, next) => {
   Users.findOne({
@@ -84,11 +84,17 @@ let verifyEmail = (req, res, next) => {
   })
 }
 
+let ensureAuthenticated = (req, res, next) => {
+  if (req.isAuthenticated()) {return next()}
+  res.redirect('/signin')
+}
+
 module.exports = {
   verifyPassword: verifyPassword,
   createToken: createToken,
   verifyAuth: verifyAuth,
   destroyToken: destroyToken,
   hashPassword: hashPassword,
-  verifyEmail: verifyEmail
+  verifyEmail: verifyEmail,
+  ensureAuthenticated: ensureAuthenticated
 }
